@@ -6,17 +6,37 @@ import java.util.Set;
 
 public class RacingCarGame {
 
-  public void StartGame() {
-    Set<Car> cars = registerCars();
+  public void startGame() {
+    Set<Car> cars = registerCars(); // 자동차 등록
+    int attempts = readNumberOfAttempts(); // 사용자 이동 명령 입력
+    // 자동차 움직이기
+    // 우승자 가리기
   }
 
-  public String[] readCarNames() {
+  private int readNumberOfAttempts() {
+    System.out.println("시도할 횟수는 몇 회인가요?");
+    String input = Console.readLine();
+    return validateAndParseNumber(input);
+  }
+
+  private int validateAndParseNumber(String input) {
+    if (input.isEmpty()) {
+      throw new IllegalArgumentException("아무 것도 입력하지 않았습니다.");
+    }
+    try {
+      return Integer.parseInt(input);
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException("숫자가 아닌 다른 문자를 입력했습니다.");
+    }
+  }
+
+  private String[] readCarNames() {
     System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
     String carNamesInput = Console.readLine();
     return carNamesInput.split(",");
   }
 
-  public String[] validateCarNames(String[] carNames) {
+  private String[] validateCarNames(String[] carNames) {
     for (String carName : carNames) {
       if (carName.isBlank()) {
         throw new IllegalArgumentException("이름이 비었습니다.");
@@ -28,7 +48,7 @@ public class RacingCarGame {
     return carNames;
   }
 
-  public Set<Car> generateCars(String[] carNames) {
+  private Set<Car> generateCars(String[] carNames) {
     Set<Car> cars = new HashSet<>();
     for (String carName : carNames) {
       cars.add(new Car(carName));
@@ -36,7 +56,7 @@ public class RacingCarGame {
     return cars;
   }
 
-  public Set<Car> registerCars() {
+  private Set<Car> registerCars() {
     return generateCars(validateCarNames(readCarNames()));
   }
 }
