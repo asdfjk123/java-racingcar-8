@@ -15,8 +15,33 @@ public class RacingCarGame {
   }
 
   private void verifyWinner(List<Car> cars) {
-    // 우승자를 최종 결과 리스트에 등록
-    // 우승자 출력
+    List<String> winners = whoIsWinner(cars);// 우승자를 최종 결과 리스트에 등록
+    printFinalWinnersName(winners);// 우승자 출력
+  }
+
+  private void printFinalWinnersName(List<String> winners) {
+    System.out.print("최종 우승자 : ");
+    int numberOfWinners = winners.size();
+    for (int i = 0; i < numberOfWinners; i++) {
+      System.out.print(winners.get(i));
+      if (i < numberOfWinners - 1) {
+        System.out.print(", ");
+      }
+    }
+  }
+
+  private List<String> whoIsWinner(List<Car> cars) {
+    int maxDistance = 0;
+    List<String> winners = new ArrayList<>();
+    for (Car car : cars) {
+      maxDistance = Math.max(maxDistance, car.getDistance());
+    }
+    for (Car car : cars) {
+      if (car.getDistance() ==  maxDistance) {
+        winners.add(car.getName());
+      }
+    }
+    return winners;
   }
 
   private void startRace(List<Car> cars, int attempts) {
