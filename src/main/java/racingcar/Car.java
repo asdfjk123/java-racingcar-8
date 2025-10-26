@@ -32,4 +32,19 @@ public class Car {
     this.distance = distance;
   }
 
+  // 이름 중복 방지 2단계
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Car car = (Car) o;
+    return car.getName().equals(name);
+  }
+
+  // 이름 중복 방지 1단계
+  @Override
+  public int hashCode() {
+    return name.hashCode();
+  }
+
 }
