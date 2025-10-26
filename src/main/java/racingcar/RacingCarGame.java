@@ -1,16 +1,53 @@
 package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
-import java.util.HashSet;
-import java.util.Set;
+import camp.nextstep.edu.missionutils.Randoms;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RacingCarGame {
 
   public void startGame() {
-    Set<Car> cars = registerCars(); // 자동차 등록
+    List<Car> cars = registerCars(); // 자동차 등록
     int attempts = readNumberOfAttempts(); // 사용자 이동 명령 입력
-    // 자동차 움직이기
-    // 우승자 가리기
+    startRace(cars, attempts); // 자동차 움직이기
+    verifyWinner(cars); // 우승자 가리기
+  }
+
+  private void verifyWinner(List<Car> cars) {
+    // 우승자를 최종 결과 리스트에 등록
+    // 우승자 출력
+  }
+
+  private void startRace(List<Car> cars, int attempts) {
+    System.out.println("\n실행 결과");
+    for(int count = 0; count < attempts; count++) {
+      moveCars(cars);
+    }
+  }
+
+  private void moveCars(List<Car> cars) {
+    for (Car car : cars) {
+      int pickedNumber = Randoms.pickNumberInRange(0, 9);
+      car.setDistance(car.getDistance() + moveCar(pickedNumber));// 차 움직이기
+    }
+    printResultPerTurn(cars); // 턴마다 실행 결과 출력
+  }
+
+  private void printResultPerTurn(List<Car> cars) {
+    for (Car car : cars) {
+      System.out.print(car.getName() + " : ");
+      for (int moves = 0; moves < car.getDistance(); moves++) {
+        System.out.print("-");
+      }
+      System.out.println();
+    }
+    System.out.println();
+  }
+
+  private int moveCar(int pickedNumber) {
+    if (pickedNumber >= 4) return 1;
+    return 0;
   }
 
   private int readNumberOfAttempts() {
@@ -48,15 +85,15 @@ public class RacingCarGame {
     return carNames;
   }
 
-  private Set<Car> generateCars(String[] carNames) {
-    Set<Car> cars = new HashSet<>();
+  private List<Car> generateCars(String[] carNames) {
+    List<Car> cars = new ArrayList<>();
     for (String carName : carNames) {
       cars.add(new Car(carName));
     }
     return cars;
   }
 
-  private Set<Car> registerCars() {
+  private List<Car> registerCars() {
     return generateCars(validateCarNames(readCarNames()));
   }
 }
